@@ -55,9 +55,50 @@ void add_last(List* l, void* d)
     }
 }
 
-void remove_specific(List*, void*);
-void remove_first(List*);
-void remove_last(List*);
+void remove_specific(List* l, void* d, void(*free_func)(void*)) 
+{
+    assert(l!=NULL);
+    if(l->first==NULL) { return; }
+    Node* s=l->first;
+    while(s->data != d) { s=s->next;}
+    s->prev->next = s->next;
+    free_func(s->data);
+    free(s);
+}
+void remove_first(List* l, void(*free_func)(void*))
+{
+    assert(l!=NULL);
+    if(l->first==NULL) { return; }
+    Node* tmp = l->first;
+    if(l->first == l->last) {
+        l->last = NULL;
+        l->first = NULL;
+        free_func(tmp->data);
+        free(tmp);
+        return;
+    }
+    l->first->next->prev = NULL;
+    l->first = l->first->next;
+    free_func(tmp->data);
+    free(tmp);
+}
+void remove_last(List* l, void(*free_func)(void*))
+{
+    assert(l!=NULL);
+    if(l->first==NULL) { return; }
+    Node* tmp = l->last;
+    if(l->first == l->last) {
+        l->last = NULL;
+        l->first = NULL;
+        free_func(tmp->data);
+        free(tmp);
+        return;
+    }
+    l->last->prev->next = NULL;
+    l->last = l->last->prev;
+    free_func(tmp->data);
+    free(tmp);
+}
 
 void empty_list(List* list, void(*free_func)(void*))
 {
@@ -88,7 +129,7 @@ void char_print_list(void *d)
     printf("%c -> ", *(char*)d);
 }
 
-void free_list(List*);
+void free_list(List*, void(*free_func)(void*));
 void free_int(void* d){free(d);}
 void free_char(void* d){free(d);}
 
@@ -150,6 +191,31 @@ int main()
     add_last(list, v5);
 
     print_list(list, int_print_list);
+
+    remove_specific(list, v3, free_int); printf("\n");
+
+    print_list(list, int_print_list); printf("\n");
+    
+    remove_first(list, free_int);
+    remove_last(list, free_int);
+
+    print_list(list, int_print_list); printf("\n");
+    
+    remove_first(list, free_int);
+    print_list(list, int_print_list); printf("\n");
+    remove_first(list, free_int);
+    print_list(list, int_print_list); printf("\n");
+    remove_first(list, free_int);
+    print_list(list, int_print_list); printf("\n");
+    remove_first(list, free_int);
+    print_list(list, int_print_list); printf("\n");
+    remove_first(list, free_int);
+    remove_last(list, free_int);
+    remove_last(list, free_int);
+    remove_last(list, free_int);
+    remove_last(list, free_int);
+    remove_last(list, free_int);
+    
 
     return 0;
 }
