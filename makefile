@@ -1,20 +1,17 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -std=c11
+CFLAGS=-Wall -Wextra -std=c11 -Iinclude
+
+TARGET=test_list
+TEST_SRC=tests/test_list.c
+SRC=src/list.c
 
 .PHONY: all clean
 
-all: list_test
-	rm -f *.o
+all: $(TARGET)
 
-list_test: list_test.o list.o
-	$(CC) $(CFLAGS) -o $@ $^
-
-list_test.o: list_test.c list_test.h list.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-list.o: list.c list.h
-	$(CC) $(CFLAGS) -c $< -o $@
+$(TARGET): $(TEST_SRC) $(SRC) include/list.h
+	$(CC) $(CFLAGS) $(TEST_SRC) $(SRC) -o $@
 
 clean:
-	rm -f *.o list_test
+	rm -f $(TARGET)
 
