@@ -24,7 +24,7 @@ void* get_last(List*);
 void add_first(List*, void*);
 void add_last(List*, void*);
 
-void remove_specific(List*, void*, void(*free_func)(void*));
+void remove_specific(List*, void*, void(*free_func)(void*), int(*cmp_func)(void*,void*));
 void remove_first(List*, void(*free_func)(void*));
 void remove_last(List*, void(*free_func)(void*));
 

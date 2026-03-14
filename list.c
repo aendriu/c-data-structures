@@ -55,13 +55,29 @@ void add_last(List* l, void* d)
     }
 }
 
-void remove_specific(List* l, void* d, void(*free_func)(void*)) 
+void remove_specific(List* l, void* d, void(*free_func)(void*), int(*cmp_func)(void*,void*)) 
 {
     assert(l!=NULL);
     if(l->first==NULL) { return; }
     Node* s=l->first;
-    while(s->data != d) { s=s->next;}
-    s->prev->next = s->next;
+    while(s!=NULL && cmp_func(s->data,d) != 0) { s=s->next;}
+    if(s==NULL) { 
+        return; 
+    }
+    else if(s == l->first) {
+        l->first = s->next;
+        if(l->first != NULL) { l->first->prev = NULL; } 
+        else { l->last = NULL; }
+    } 
+    else if(s == l->last) {
+        l->last = s->prev;
+        l->last->next = NULL;
+    } 
+    else {
+        s->prev->next = s->next;
+        s->next->prev = s->prev;
+    }
+    
     free_func(s->data);
     free(s);
 }

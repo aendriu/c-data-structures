@@ -18,6 +18,14 @@ void string_print_list(void *d)
     printf("%s -> ", (char*)d);
 }
 
+int cmp_int(void* a, void* b)
+{
+    if((*(int*)a) == (*(int*)b)) { return 1; }
+    else {return 0;}
+    
+}
+
+
 void free_int(void* d){free(d);}
 void free_char(void* d){free(d);}
 void free_string(void* d){free(d);}
@@ -83,7 +91,7 @@ int main()
 
     print_list(list, int_print_list);
 
-    remove_specific(list, v3, free_int); printf("\n");
+    remove_specific(list, v3, free_int,cmp_int); printf("\n");
 
     print_list(list, int_print_list); printf("\n");
     
