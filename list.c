@@ -27,6 +27,19 @@ void* get_last(List* l)
 {
     return l->last->data;
 }
+void* get_nth(List*l, int n) {
+    assert(l!=NULL);
+    Node* s = l->first;
+    while(s!=NULL && n-- > 0) {
+        s=s->next;
+    }
+    if(s==NULL) {
+        return NULL;
+    }
+    else {
+        return s->data;
+    }
+}
 
 void add_first(List* l, void* d)
 {

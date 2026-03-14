@@ -20,6 +20,7 @@ List* alloc_list();
 
 void* get_first(List*);
 void* get_last(List*);
+void* get_nth(List*, int);
 
 void add_first(List*, void*);
 void add_last(List*, void*);

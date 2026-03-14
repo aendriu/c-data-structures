@@ -159,6 +159,13 @@ int main()
     }
 
     print_list(list, string_print_list); printf("\n");
+    
+    char* s= (char*)get_nth(list, 10);
+    char* s2= (char*)get_nth(list, 2);
+    char* s3= (char*)get_nth(list, 10000);
+    printf("10th element: %s\n", s);
+    printf("2nd element: %s\n", s2);
+    printf("10000th element: %s\n", s3);
 
     free_list(list, free_string);
     return 0;
