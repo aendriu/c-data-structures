@@ -1,13 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 #include <assert.h>
-#include <error.h>
-#include <time.h>
 
 typedef struct Node {
     void* data;
@@ -34,14 +29,7 @@ void remove_first(List*, void(*free_func)(void*));
 void remove_last(List*, void(*free_func)(void*));
 
 void empty_list(List*, void(*free_func)(void*));
-
 void print_list(List*, void(*print_func)(void*));
-void int_print_list(void *d);
-void char_print_list(void *d);
-
-void free_int(void* d);
-void free_char(void* d);
-
 void free_list(List*, void(*free_func)(void*));
 
 #endif /* LIST_H */
