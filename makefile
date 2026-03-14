@@ -4,6 +4,7 @@ CFLAGS=-Wall -Wextra -std=c11
 .PHONY: all clean
 
 all: list_test
+	rm -f *.o
 
 list_test: list_test.o list.o
 	$(CC) $(CFLAGS) -o $@ $^

@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <time.h>
 #include "list.h"
 #include "list_test.h"
 
-
+#define TEST_SIZE 100
 
 void int_print_list(void *d)
 {
@@ -12,13 +13,19 @@ void char_print_list(void *d)
 {
     printf("%c -> ", *(char*)d);
 }
+void string_print_list(void *d)
+{
+    printf("%s -> ", (char*)d);
+}
+
 void free_int(void* d){free(d);}
 void free_char(void* d){free(d);}
-
+void free_string(void* d){free(d);}
 
 
 int main() 
 {
+    srand(time(NULL));
     List* list = alloc_list();
 
     /*
@@ -119,8 +126,33 @@ int main()
     add_last(list, c5);
 
     print_list(list, char_print_list); printf("\n");
+    
+    for(int i=0; i<TEST_SIZE; i++) {
+        char* c=(char*)malloc(sizeof(char));
+        *c='a'+(rand()%26);
+        add_last(list, c);
+    }
+    print_list(list, char_print_list); printf("\n");
 
+    empty_list(list, free_char); printf("\n");
 
+    for(int i=0; i<TEST_SIZE; i++) {
+        int* n=(int*)malloc(sizeof(int));
+        *n='a'+(rand()%100);
+        add_last(list, n);
+    }
+
+    empty_list(list, free_int); printf("\n");
+
+    for(int i=0; i<TEST_SIZE; i++) {
+        char* s=(char*)malloc(20*sizeof(char));
+        sprintf(s, "String%d", i);
+        add_last(list, s);
+    }
+
+    print_list(list, string_print_list); printf("\n");
+
+    free_list(list, free_string);
     return 0;
 }
 
