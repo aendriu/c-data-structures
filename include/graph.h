@@ -13,11 +13,16 @@ typedef struct V {
     void *data;
 } V;
 
+typedef struct lV {
+    void *data;
+    List* adj;
+}lV;
+
 //
 
 typedef struct mGraph {
     uint n_el;
-    V *v;
+    V **v;
     bool **adj;
 } mGraph;
 
@@ -25,14 +30,14 @@ typedef struct mGraph {
 
 typedef struct lGraph {
     uint n_el;
-    List **adj;
+    List* lVs;
 } lGraph;
 
 // *
 
 
 V* alloc_vertex(void* data);
-void free_vertex(void* v, void(*free_func)(void*));
+void free_vertex(V* v, void(*free_func)(void*));
 
 mGraph* create_mGraph(uint n_el);
 void destroy_mGraph(mGraph* mg, void(*free_func)(void*));

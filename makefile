@@ -17,8 +17,8 @@ all: $(TARGET) $(GRAPH_TARGET) $(GRAPH_OBJ)
 $(TARGET): $(TEST_SRC) $(SRC) include/list.h
 	$(CC) $(CFLAGS) $(TEST_SRC) $(SRC) -o $@
 
-$(GRAPH_TARGET): $(GRAPH_TEST_SRC) $(GRAPH_SRC) include/graph.h
-	$(CC) $(CFLAGS) $(GRAPH_TEST_SRC) $(GRAPH_SRC) -o $@
+$(GRAPH_TARGET): $(GRAPH_TEST_SRC) $(GRAPH_SRC) $(LIST_SRC) include/graph.h include/list.h
+	$(CC) $(CFLAGS) $(GRAPH_TEST_SRC) $(GRAPH_SRC) $(LIST_SRC) -o $@
 
 $(GRAPH_OBJ): $(GRAPH_SRC)
 	$(CC) $(CFLAGS) -c $(GRAPH_SRC) -o $@

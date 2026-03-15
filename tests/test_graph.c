@@ -12,6 +12,7 @@ void m_print_adj(mGraph* mg)
     }
 }
 
+void l_print_adj(lGraph* lg);
 
 int main() {
     mGraph* mg = create_mGraph(10);
@@ -22,5 +23,8 @@ int main() {
     mremove_adj(mg, 0, 2);
     m_print_adj(mg); printf("\n"); 
     destroy_mGraph(mg, free);
+   
+
+    lGraph* lg = create_lGraph(10);
     return 0;
 }
