@@ -1,4 +1,4 @@
-#include "list.h"
+#include "../include/list.h"
 #define TEST_SIZE 20
 
 Node* alloc_node(void* d)

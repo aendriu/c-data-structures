@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <time.h>
-#include "list.h"
+#include "../include/list.h"
 
 #define TEST_SIZE 100
 
