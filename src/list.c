@@ -94,6 +94,7 @@ void remove_specific(List* l, void* d, void(*free_func)(void*), int(*cmp_func)(v
     free_func(s->data);
     free(s);
 }
+
 void remove_first(List* l, void(*free_func)(void*))
 {
     assert(l!=NULL);

@@ -8,51 +8,64 @@
 
 typedef unsigned int uint;
 
+typedef enum {
+    ADJ_MAT,
+    ADJ_LST
+} GraphImpl;
 
 typedef struct V {
-    void *data;
-} V;
+    void* data;
+}V;
 
-typedef struct lV {
-    void *data;
-    List* adj;
-}lV;
+typedef struct Operations {
+    int(*add_v)(void *E);
+    int(*add_edge)(void *E, uint i, uint j);
+    int(*rm_edge)(void *E, uint i, uint j);
+    bool(*has_edge)(void *E, uint i, uint j);
+    int(*resize)(void *E, uint ns);
+    void(*destroy)(void *E, uint size);
+}Operations;
 
-//
+extern Operations mGraphOps;
+extern Operations lGraphOps;
 
-typedef struct mGraph {
-    uint n_el;
-    V **v;
-    bool **adj;
-} mGraph;
-
-// *
-
-typedef struct lGraph {
-    uint n_el;
-    List* lVs;
-} lGraph;
-
-// *
+int madd_v(void *E);
+int madd_edge(void *E, uint i, uint j);
+int mrm_edge(void *E, uint i, uint j);
+bool mhas_edge(void *E, uint i, uint j);
+int mresize(void* E, uint ns);
+void mdestroy(void *E, uint size);
 
 
-V* alloc_vertex(void* data);
-void free_vertex(V* v, void(*free_func)(void*));
-
-mGraph* create_mGraph(uint n_el);
-void destroy_mGraph(mGraph* mg, void(*free_func)(void*));
-
-void madd_adj(mGraph* ,uint, uint);
-void mremove_adj(mGraph*, uint, uint);
-
-lGraph* create_lGraph(uint n_el);
-void destroy_lGraph(lGraph* lg, void(*free_func)(void*));
-
-void ladd_adj(lGraph* lg, uint i, uint j);
-void lremove_adj(lGraph* lg, uint i, uint j);
+int ladd_v(void *E);
+int ladd_edge(void *E, uint i, uint j);
+int lrm_edge(void *E, uint i, uint j);
+bool lhas_edge(void *E, uint i, uint j);
+int lresize(void* E, uint ns);
+void ldestroy(void *E, uint size);
 
 
 
+typedef struct G {
+    V* Vs;
+    void *E;
+    uint size; // how many elements
+    uint capacity; // max number of elements
+    
+    Operations* op;
+    int(*cmp)(const void* a, const void* b);
+    int(*free_data)(void*);
+}G;
+
+// Helpers
+G* graph_create(GraphImpl impl);
+
+// Specific member functions
+
+int graph_add_v(void *E);
+int graph_add_edge(void *E, uint i, uint j);
+int graph_rm_edge(void *E, uint i, uint j);
+bool graph_has_edge(void *E, uint i, uint j);
+void graph_destroy(void *E, uint size);
 
 #endif
-

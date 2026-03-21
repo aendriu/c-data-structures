@@ -1,94 +1,74 @@
-#include "../include/graph.h"
-#include <stdbool.h>
+#include "graph.h"
 
-V* alloc_vertex(void* data)
-{
-    V* v=(V*)malloc(sizeof(V));
-    v->data = data;
-    return v;
-}
-void free_vertex(V* v, void(*free_func)(void*))
-{
-    free_func(v->data);
-    free(v);
-}
+/* : def
+typedef struct G {
+    V* Vs;
+    void *E;
+    uint size; // how many elements
+    uint capacity; // max number of elements
+    
+    Operations* op;
+    int(*cmp)(const void* a, const void* b);
+    int(*free_data)(void*);
+}G;
+*/
 
-mGraph* create_mGraph(uint n_el)
-{
-    mGraph* mg = (mGraph*)malloc(sizeof(mGraph));
-    V** v = (V**)malloc(n_el*sizeof(V*));
-    bool **adj = (bool**)malloc(n_el*sizeof(bool*));
-    for(int i=0; i<n_el;i++) {
-        adj[i] = (bool*)malloc(n_el*sizeof(bool));
-        v[i] = alloc_vertex(NULL);
-    }
-    for(int i=0; i<n_el;i++) {
-        for(int j=0; j<n_el;j++) {
-            adj[i][j] = 0;
-        }
-    }
-    mg->n_el = n_el;
-    mg->adj = adj;
-    mg->v = v;
-    return mg;
-}
-void destroy_mGraph(mGraph* mg, void(*free_func)(void*))
-{
-    for(int i=0; i<mg->n_el; i++) {
-        free_func(mg->v[i]->data);
-        free(mg->adj[i]);
-    }
-    free(mg->adj);
-    free(mg->v);
-    free(mg);
-}
+// : ops
+/*
+typedef struct Operations {
+    int(*add_v)(void *E);
+    int(*add_edge)(void *E, uint i, uint j);
+    int(*rm_edge)(void *E, uint i, uint j);
+    bool(*has_edge)(void *E, uint i, uint j);
+    int(*resize)(void *E, uint ns);
+    void(*destroy)(void *E, uint size);
+}Operations;
+*/
 
-void madd_adj(mGraph* mg, uint i, uint j) 
-{
-    mg->adj[i][j] = 1;
-}
-void mremove_adj(mGraph* mg, uint i, uint j)
-{
-    mg->adj[i][j] = 0;
-}
+int madd_v(void *E);
+int madd_edge(void *E, uint i, uint j);
+int mrm_edge(void *E, uint i, uint j);
+bool mhas_edge(void *E, uint i, uint j);
+int mresize(void* E, uint ns);
+void mdestroy(void *E, uint size);
 
 
-lGraph* create_lGraph(uint n_el)
-{
-    lGraph* lg = (lGraph*)malloc(sizeof(lGraph));
-    lg->n_el = n_el;
-    lg->lVs = alloc_list();
-    for(int i=0; i<n_el;i++) {
-        V* v = alloc_vertex(NULL);
-        add_last(lg->lVs, v);
-    }
-    return lg;
-}
-void destroy_lGraph(lGraph* lg, void(*free_func)(void*))
-{
-    for(int i=0; i<lg->n_el; i++) {
-        V* v = (V*)get_nth(lg->lVs, i);
-        free_vertex(v, free_func);
-    }
-    free(lg);
-}
+int ladd_v(void *E);
+int ladd_edge(void *E, uint i, uint j);
+int lrm_edge(void *E, uint i, uint j);
+bool lhas_edge(void *E, uint i, uint j);
+int lresize(void* E, uint ns);
+void ldestroy(void *E, uint size);
 
-void ladd_adj(lGraph* lg, uint i, uint j);
-void lremove_adj(lGraph* lg, uint i, uint j);
+// : mops
+Operations mGraphOps = {
+    .add_v = madd_v,
+    .add_edge = madd_edge,
+    .rm_edge = mrm_edge,
+    .has_edge = mhas_edge,
+    .resize = mresize,
+    .destroy = mdestroy
+};
 
+// : lops
+Operations lGraphOps = {
+    .add_v = ladd_v,
+    .add_edge = ladd_edge,
+    .rm_edge = lrm_edge,
+    .has_edge = lhas_edge, 
+    .resize = lresize,
+    .destroy = ldestroy
+};
 
+// Helpers
+G* graph_create(GraphImpl impl);
 
+// Specific member functions
 
-
-
-
-
-
-
-
-
-
-
-
+int graph_add_v(void *E);
+int graph_add_edge(void *E, uint i, uint j);
+int graph_rm_edge(void *E, uint i, uint j);
+bool graph_has_edge(void *E, uint i, uint j);
+void graph_destroy(void *E, uint size);
 
 
