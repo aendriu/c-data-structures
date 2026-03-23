@@ -1,6 +1,7 @@
 #ifndef GRAPH
 #define GRAPH
 
+
 #include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
@@ -51,6 +52,7 @@ void lresize(G* G, uint ns);
 void ldestroy(G* G, uint size);
 void ldestroy_E(G* G);
 void ldestroy_V(G* G);
+
 
 typedef struct G {
     V* Vs;
