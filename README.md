@@ -1,5 +1,7 @@
 # c-data-structures
 
+A C library im writing for learning purpuses.
+
 Project layout:
 
 - `include/`: public headers
